@@ -1,17 +1,48 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
+import List from './components/List'
+
+interface Sub {
+  nick:string
+  avatar:string
+  subMonths:number
+  description?:string
+}
+
+interface AppState {
+  subs:Array<Sub>
+  newSubsNumber:number
+}
+
+const INITIAL_STATE =[
+  {
+    nick:'dapelu',
+    subMonths:3,
+    avatar:'https://i.pravatar.cc/150?u=dapelu',
+    description:'Dapelu is chad'
+  },
+  {
+    nick: 'sergio_jorge',
+    subMonths:7,
+    avatar:'https://i.pravatar.cc/150?u=jorge',
+    description:'jorge is tier 3'
+  }
+]
+
+
 
 function App() {
-  const [number, setNumber] = useState(0)
+  const [subs, setSubs] = useState<AppState['subs']>([])
+  const [newSubsNumber,setNewSubsNumber]=useState<AppState["newSubsNumber"]>(0)
 
-  const changeNumber = () =>{
-    setNumber('2')
-  }
+  useEffect(() =>{
+    setSubs(INITIAL_STATE)
+  }, [])
 
   return (
     <div className='App'>
-      {number}
-      <button onClick={changeNumber}>Change number</button>
+       <h1>Jorge subs</h1>
+        <List subs= {subs}/>
     </div>
   )
 }
