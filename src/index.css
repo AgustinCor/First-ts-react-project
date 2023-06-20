@@ -33,6 +33,18 @@
   padding: 8px 32px;
  }
 
+ form {
+  display: flex;
+  flex-direction: column;
+ }
+
+ form input {
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  padding: 4px 6px;
+  margin: 0 0 4px;
+ }
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -48,6 +60,12 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+}
+
+textarea{
+  font-family: inherit;
+  margin-bottom: 8px;
+  padding-left: 5px;
 }
 
 h1 {
