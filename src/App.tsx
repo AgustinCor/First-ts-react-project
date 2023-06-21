@@ -1,9 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
 import './App.css'
-import List from './components/List'
-import Form from './components/Form'
-import {Sub} from './types'
+import List from "./components/List";
+import Form from "./components/Form"
 
+interface Sub{
+  nick:string
+  avatar:string
+  months:number
+  description?:string
+}
 
 interface AppState {
   subs:Array<Sub>
@@ -12,36 +17,31 @@ interface AppState {
 
 const INITIAL_STATE =[
   {
-    nick:'dapelu',
-    subMonths:3,
-    avatar:'https://i.pravatar.cc/150?u=dapelu',
-    description:'Dapelu is chad'
+    nick:'ernestin',
+    months:3,
+    avatar:'https://i.pravatar.cc/150?u=ernestin',
+    description:'Ernestin is good'
   },
   {
-    nick: 'sergio_jorge',
-    subMonths:7,
-    avatar:'https://i.pravatar.cc/150?u=jorge',
-    description:'jorge is tier 3'
+    nick:'sergin',
+    months:6,
+    avatar:'https://i.pravatar.cc/150?u=sergin'
   }
 ]
 
-
-
-function App() {
-  const [subs, setSubs] = useState<AppState['subs']>([])
-  const [newSubsNumber,setNewSubsNumber]=useState<AppState["newSubsNumber"]>(0)
-
-  useEffect(() =>{
+function App(){
+  const [subs, setSubs] =useState<AppState["subs"]>([])
+  const [newSubsNumber, setNewSubsNumber] =useState<AppState["newSubsNumber"]>(0)
+ 
+  useEffect(()=>{
     setSubs(INITIAL_STATE)
-  }, [])
+  },[])
 
-  return (
-    <div className='App'>
-       <h1>Jorge subs</h1>
-        <List subs= {subs}/>
-        <Form onNewSub={setSubs}/>
+  return(
+    <div className="App">
+       <List subs={subs}/>
+       <Form />
     </div>
   )
 }
-
-export default App
+export default App;
