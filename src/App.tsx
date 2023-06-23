@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import './App.css'
 import List from "./components/List";
 import Form from "./components/Form"
-import {Sub} from './types'
+import {Sub, SubsResponseFromApi} from './types'
+import axios from "axios";
 
 
 interface AppState {
@@ -27,18 +28,48 @@ const INITIAL_STATE =[
 function App(){
   const [subs, setSubs] =useState<AppState["subs"]>([])
   const [newSubsNumber, setNewSubsNumber] =useState<AppState["newSubsNumber"]>(0)
- 
+  const divRef =useRef<HTMLDivElement>(null)
+
   useEffect(()=>{
-    setSubs(INITIAL_STATE)
+    const fetchSubs =():Promise<SubsResponseFromApi> => {
+      return axios
+      .get('http://localhost:3001/subs')
+      .then(response => response.data)
+    }
+
+   const mapFromApiToSubs =(apiResponse:SubsResponseFromApi):
+   Array<Sub> => {
+    return apiResponse.map(subFromApi => {
+      const {
+        months:months,
+        profileUrl:avatar,
+        nick,
+        description
+      } =subFromApi
+
+      return {
+        nick,
+        description,
+        avatar,
+        months
+      }
+    })
+   }
+
+    fetchSubs()
+    .then(mapFromApiToSubs)
+    .then(setSubs)
   },[])
 
   const handleNewSub =(newSub: Sub): void =>{
     setSubs(subs => [...subs, newSub])
+    setNewSubsNumber(n => n + 1)
   }
 
   return(
-    <div className="App">
+    <div className="App" ref={divRef}>
        <List subs={subs}/>
+       New subs: {newSubsNumber}
        <Form onNewSub={handleNewSub}/>
     </div>
   )
